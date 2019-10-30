@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 1</title>
+    <link rel="stylesheet" href="css/style.min.css"/>
+</head>
+<body>
+<div id="target">
+
+</div>
+
+<script>
+    /*
+      1. Выбрать блок Target
+      2. Cоздать див внутри этого блока
+      3. Добавить ему 3 класса "Ctrl Shift Delete" используя свойство className
+      4. Добавиь класс через метод add
+      5. Удалить класс "Delete"
+      6. Применить метод toggle на класс "Command"
+    */
+
+    let div_target = document.querySelector('#target');
+    let div_in_target = document.createElement('div');
+    div_target.appendChild(div_in_target);
+    div_in_target.className = 'Ctrl Shift Delete';
+    div_in_target.classList.add('add-class');
+    div_in_target.classList.remove('Delete');
+    div_in_target.classList.toggle('Command');
+
+</script>
+</body>
+</html>

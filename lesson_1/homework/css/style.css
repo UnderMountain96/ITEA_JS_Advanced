@@ -1,0 +1,29 @@
+
+html {
+    font-size: 24px;
+}
+
+.container {
+  width: 20%;
+  margin: 10% auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 4px black inset;
+}
+
+.center {
+    text-align: center;
+}
+
+button {
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+  background-color: #0c78cd;
+  color: white;
+}
+
+button:hover {
+  background-color: coral;
+  color: white;
+}
