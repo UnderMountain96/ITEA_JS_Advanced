@@ -1,6 +1,6 @@
 # JavaScript Advanced
 
-## Lesson 1
+## Lesson 2
 
 #### Classwork
 
