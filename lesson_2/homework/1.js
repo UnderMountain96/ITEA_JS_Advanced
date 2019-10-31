@@ -47,18 +47,18 @@ buttonContainer.onclick = function (event) {
 };
 
 let show_tab = function (button_number) {
+    let tab_active = tabContainer.getElementsByClassName('active');
     let tab_number = tabContainer.querySelector('[data-tab="' + button_number + '"]');
     tab_number.classList.toggle('active');
-    hideAllTabs()
+    if (tab_active.length > 1) {
+        hideAllTabs();
+        tab_number.classList.add('active');
+    }
 };
 
 let hideAllTabs = function () {
-    let tab_active = tabContainer.getElementsByClassName('active');
-
-    if (tab_active.length === 3) {
-        let close_all_tab = tabContainer.querySelectorAll('[data-tab]');
-        close_all_tab.forEach(function (el) {
-            el.classList.remove('active');
-        });
-    }
+    let close_all_tab = tabContainer.querySelectorAll('[data-tab]');
+    close_all_tab.forEach(function (el) {
+        el.classList.remove('active');
+    });
 };
