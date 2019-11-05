@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Task 3</title>
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="wrap" id="wrap">
+    <h1>Переключение слайдера</h1>
+    <div class="roadMap__container yellow">
+        <button class="navButton" data-direction="<"> Prev</button>
+        <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint ball" data-id="2"></div>
+            <div class="roadMapPoint" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+            <div class="roadMapPoint" data-id="5"></div>
+            <div class="roadMapPoint" data-id="6"></div>
+            <div class="roadMapPoint" data-id="7"></div>
+            <div class="roadMapPoint" data-id="8"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next</button>
+    </div>
+
+    <div class="roadMap__container red">
+        <button class="navButton" data-direction="<"> Prev</button>
+        <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint" data-id="2"></div>
+            <div class="roadMapPoint ball" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next</button>
+    </div>
+
+    <div class="roadMap__container blue">
+        <button class="navButton" data-direction="<"> Prev</button>
+        <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint ball" data-id="2"></div>
+            <div class="roadMapPoint" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next</button>
+    </div>
+
+
+    <div class="roadMap__container red">
+        <button class="navButton" data-direction="<"> Prev</button>
+        <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint" data-id="2"></div>
+            <div class="roadMapPoint ball" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next</button>
+    </div>
+
+    <div class="roadMap__container blue">
+        <button class="navButton" data-direction="<"> Prev</button>
+        <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint ball" data-id="2"></div>
+            <div class="roadMapPoint" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next</button>
+    </div>
+
+</div>
+<script>
+
+    /*
+      Задание:
+
+      Написать скрипт, который будет приводить в действие переключалки из разметки.
+      И будет перемещать класс ball по точкам в зависимости от нажатой кнопки
+
+    */
+
+    let wrap = document.getElementById('wrap');
+    let newButton = document.createElement('button');
+    newButton.innerText = 'add new container';
+    newButton.className = 'addContainer';
+    newButton.style.color = 'white';
+    newButton.style.backgroundColor = '#cc4e44';
+    newButton.style.fontSize = '20px';
+    newButton.style.border = 'none';
+    newButton.style.padding = '5px';
+    newButton.style.cursor = 'pointer';
+    wrap.prepend(newButton);
+
+    function f() {
+        const allButton = document.querySelectorAll('button');
+        allButton.forEach(function (button) {
+                button.addEventListener('click', moveBall)
+            }
+        );
+    }
+
+    f();
+
+    function moveBall(event) {
+        let thisDiv = event.target.parentElement.querySelector('div');
+        let ball = thisDiv.querySelector('.ball');
+        let idBall = ball.dataset.id;
+
+        ball.classList.remove('ball');
+            if (event.target.innerText === 'Next') {
+                if (idBall < thisDiv.children.length) { idBall++ }
+            }
+            else if (event.target.innerText === 'Prev') {
+                if (idBall > 1) { idBall-- }
+            }
+
+        let roadMapPoint = thisDiv.querySelector('[data-id="' + idBall + '"]');
+        roadMapPoint.classList.add('ball');
+    }
+
+
+    let addContainer = document.querySelector('.addContainer');
+    addContainer.addEventListener('click', newConteiner);
+
+    function newConteiner() {
+        let colors = ['blue', 'red', 'yellow'];
+
+        let createDiv = document.createElement('div');
+        createDiv.className = 'roadMap__container ' + colors[Math.floor(Math.random() * colors.length)];
+        wrap.appendChild(createDiv);
+
+        let createBtnPrev = document.createElement('button');
+        createBtnPrev.className = 'navButton';
+        createBtnPrev.dataset.direction = '<';
+        createBtnPrev.innerText= 'Prev';
+        createDiv.appendChild(createBtnPrev);
+
+        let createDivRoadMap = document.createElement('div');
+        createDivRoadMap.className = 'roadMap';
+        createDiv.appendChild(createDivRoadMap);
+
+        let len = Math.floor(Math.random() * 7) + 2;
+        let count = 0;
+
+        while (count !== len) {
+            let createDivRoadMapPoint = document.createElement('div');
+            createDivRoadMapPoint.className = 'roadMapPoint';
+            createDivRoadMapPoint.dataset.id = String(count + 1);
+            createDivRoadMap.appendChild(createDivRoadMapPoint);
+            count++;
+        }
+        let roadMapPoint = createDivRoadMap.querySelector('[data-id="' + (Math.floor(Math.random() * len) + 1) + '"]');
+        roadMapPoint.classList.add('ball');
+
+        let createBtnNext = document.createElement('button');
+        createBtnNext.className = 'navButton';
+        createBtnNext.dataset.direction = '>';
+        createBtnNext.innerText= 'Next';
+        createDiv.appendChild(createBtnNext);
+        f()
+    }
+
+</script>
+</body>
+
+</html>
