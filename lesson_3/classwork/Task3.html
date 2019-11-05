@@ -80,26 +80,87 @@
 
     */
 
+    let wrap = document.getElementById('wrap');
+    let newButton = document.createElement('button');
+    newButton.innerText = 'add new container';
+    newButton.className = 'addContainer';
+    newButton.style.color = 'white';
+    newButton.style.backgroundColor = '#cc4e44';
+    newButton.style.fontSize = '20px';
+    newButton.style.border = 'none';
+    newButton.style.padding = '5px';
+    newButton.style.cursor = 'pointer';
+    wrap.prepend(newButton);
 
-    let allButton = document.querySelectorAll('button');
-
-    allButton.forEach(function (button) {
-            button.addEventListener('click', showIcon)
-        }
-    );
-
-    function showIcon() {
-      event.preventDefault();
-        let val = event.target;
-        console.dir(val);
-      //   var containers = document.querySelectorAll('.roadMap__container');
-      //   containers.forEach(function (container) {
-      //       console.log(container);
-      //       var ball = container.querySelector('.ball');
-      //       console.log(ball.dataset.id);
-      //   });
-
+    function f() {
+        const allButton = document.querySelectorAll('button');
+        allButton.forEach(function (button) {
+                button.addEventListener('click', moveBall)
+            }
+        );
     }
+
+    f();
+
+    function moveBall(event) {
+        let thisDiv = event.target.parentElement.querySelector('div');
+        let ball = thisDiv.querySelector('.ball');
+        let idBall = ball.dataset.id;
+
+        ball.classList.remove('ball');
+            if (event.target.innerText === 'Next') {
+                if (idBall < thisDiv.children.length) { idBall++ }
+            }
+            else if (event.target.innerText === 'Prev') {
+                if (idBall > 1) { idBall-- }
+            }
+
+        let roadMapPoint = thisDiv.querySelector('[data-id="' + idBall + '"]');
+        roadMapPoint.classList.add('ball');
+    }
+
+
+    let addContainer = document.querySelector('.addContainer');
+    addContainer.addEventListener('click', newConteiner);
+
+    function newConteiner() {
+        let colors = ['blue', 'red', 'yellow'];
+
+        let createDiv = document.createElement('div');
+        createDiv.className = 'roadMap__container ' + colors[Math.floor(Math.random() * colors.length)];
+        wrap.appendChild(createDiv);
+
+        let createBtnPrev = document.createElement('button');
+        createBtnPrev.className = 'navButton';
+        createBtnPrev.dataset.direction = '<';
+        createBtnPrev.innerText= 'Prev';
+        createDiv.appendChild(createBtnPrev);
+
+        let createDivRoadMap = document.createElement('div');
+        createDivRoadMap.className = 'roadMap';
+        createDiv.appendChild(createDivRoadMap);
+
+        let len = Math.floor(Math.random() * 7) + 2;
+        let count = 0;
+
+        while (count !== len) {
+            let createDivRoadMapPoint = document.createElement('div');
+            createDivRoadMapPoint.className = 'roadMapPoint';
+            createDivRoadMapPoint.dataset.id = String(count + 1);
+            createDivRoadMap.appendChild(createDivRoadMapPoint);
+            count++;
+        }
+        let roadMapPoint = createDivRoadMap.querySelector('[data-id="' + (Math.floor(Math.random() * len) + 1) + '"]');
+        roadMapPoint.classList.add('ball');
+
+        let createBtnNext = document.createElement('button');
+        createBtnNext.className = 'navButton';
+        createBtnNext.dataset.direction = '>';
+        createBtnNext.innerText= 'Next';
+        createDiv.appendChild(createBtnNext);
+        f()
+    }
+
 </script>
 </body>
 
