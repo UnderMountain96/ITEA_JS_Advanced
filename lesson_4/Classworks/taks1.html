@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms Task 1</title>
+    <script>
+        /*
+          Задание:
+            Сделать валидацию формы:
+            1. Логин / Пароль не может быть пустым
+            2. Пароли должны совпадть
+            3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+            + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                    - которое прошло - подсвечивать зеленым.
+        */
+    </script>
+</head>
+<body>
+<form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин"/>
+    <input type="password" name='pas1' placeholder="Ваш пароль"/>
+    <input type="password" name='pas2' placeholder="Повторите пароль"/>
+    <label for="agree">
+        <span>Вы согласны с лицензионым соглашением.</span>
+        <input type="checkbox" id="agree"/>
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled/>
+</form>
+
+<style>
+    #MyValidateForm {
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #MyValidateForm input {
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 10px 20px;
+    }
+
+    .error {
+        border: 1px solid red;
+    }
+
+    .OK {
+        border: 1px solid green;
+    }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let getLogin = document.querySelector('[name="login"]');
+        let getPas1 = document.querySelector('[name="pas1"]');
+        let getPas2 = document.querySelector('[name="pas2"]');
+        let getCheckbox = document.querySelector('#agree');
+        let getButton = document.querySelector('#submit');
+
+        getLogin.setAttribute('required', 'required');
+        getPas1.setAttribute('required', 'required');
+        getPas2.setAttribute('required', 'required');
+
+        let validLogin = function () {
+            if (getLogin.value !== '') {
+                getLogin.className = 'OK';
+            } else {
+                getLogin.className = 'error';
+            }
+        };
+
+        let validPas1 = function () {
+            if (getPas1.value !== '') {
+                getPas1.className = 'OK';
+            } else {
+                getPas1.className = 'error';
+            }
+            validPas2()
+        };
+
+        let validPas2 = function () {
+            if (getPas1.value === getPas2.value && getPas2.value !== '') {
+                getPas2.className = 'OK';
+                getPas2.setCustomValidity('');
+            } else {
+                getPas2.className = 'error';
+                getPas2.setCustomValidity('Password does not match!');
+            }
+        };
+
+        getLogin.addEventListener("change", validLogin);
+        getPas1.addEventListener("change", validPas1);
+        getPas2.addEventListener("change", validPas2);
+
+        getCheckbox.addEventListener("change", function () {
+            if (getCheckbox.checked === true) {
+                getButton.removeAttribute('disabled');
+            } else {
+                getButton.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        getButton.addEventListener("click", function () {
+            validLogin();
+            validPas1();
+            validPas2();
+        });
+    });
+</script>
+</body>
+</html>
