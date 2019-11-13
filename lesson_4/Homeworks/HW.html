@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HW</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <form id="form">
+        <div>
+            <label for="name">Имя пользователя:</label>
+            <input id="name" type="text" required minlength=2>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" type="email" required minlength=3>
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input id="password" type="password" required minlength=8 maxlength=16>
+        </div>
+        <div>
+            <label for="number">Количество сьеденых яблок:</label>
+            <input id="number" type="number" required minlength=1>
+        </div>
+        <div>
+            <label for="th">Напиши спасибо за яблоки:</label>
+            <input id="th" type="text" required>
+        </div>
+        <div>
+            <label for="checkbox">Согласен на обучение:</label><br>
+            <input id="checkbox" type="checkbox" required>
+        </div>
+        <div>
+            <button type="button" id="submit">submit</button>
+            <button type="button" id="validate" style="float: right">Validate</button>
+        </div>
+    </form>
+</div>
+
+<script src="Task1.js"></script>
+</body>
+</html>
