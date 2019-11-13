@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form work1</title>
+    <script>
+        /*
+          Задание:
+
+          1. Сгенерировать список стран в Select countries
+          2. При выборе страны генерировать еще один Select со списком
+            городов этой страны и вывести этот селект в блок result
+          3. При выборе города нужно случайно рандомить температуру от
+          -10 градусов до +40. Если температура
+
+            -10 до 0 то 'Солнечно' 'Легкий снегопад' 'Сильный снегопад'
+            0 до 30 то  'Солнечно' 'Дождь' 'Ветер' 'Сильный дождь'
+            30 до 40 то 'Солнечно' 'Засуха' 'Ветер'
+
+          4. Вывести сообщение на страничку
+            {Country}. В {City} {Weather} {Temperature} градусов.
+            Ukraine. В Kyiv Солнечно -10 градусов
+
+            + бонус добавить красивые картинки с погодой
+        */
+        window.addEventListener("load", function () {
+            let countries = ['Ukraine', 'Poland', 'USA'];
+            let ukraineCity = ['Kyiv', 'Lviv', 'Odesa', 'Charkiv'];
+            let polandCity = ['Warszawa', 'Poznan', 'Krakow', 'Katowice'];
+            let usaCity = ['New York', 'Los Angeles', 'Las Vegas', 'Chicago'];
+
+            let countriesCity = {'Ukraine': ukraineCity, 'Poland': polandCity, 'USA': usaCity};
+            let weather = [
+                ['Солнечно', 'Легкий снегопад', 'Сильный снегопад'],
+                ['Солнечно', 'Дождь', 'Ветер', 'Сильный дождь'],
+                ['Солнечно', 'Засуха', 'Ветер']
+            ];
+            let images = [
+                ['weather/Солнечно.png', 'weather/Легкий снегопад.png', 'weather/Сильный снегопад.png'],
+                ['weather/Солнечно.png', 'weather/Дождь.png', 'weather/Ветер.png', 'weather/Сильный дождь.png'],
+                ['weather/Солнечно.png', 'weather/Засуха.png', 'weather/Ветер.png']
+            ];
+
+            let countriesSelect = document.getElementById('countries');
+
+            function createSelect(select, list){
+                select.appendChild(new Option('Selected', '', true, true));
+                list.forEach(function (item) {
+                    select.appendChild(new Option(item, item, true, true));
+                });
+                select.selectedIndex = 0;
+                select.options[0].disabled = true;
+            }
+
+            createSelect(countriesSelect, countries);
+
+
+            countriesSelect.addEventListener("change", function () {
+                if (document.getElementById('City')){
+                    document.getElementById('City').remove()
+                }
+                if (document.getElementById('Weather')){
+                    document.getElementById('Weather').remove()
+                }
+                let getSelectCountry = document.getElementById('countries');
+                let createSelectCity = document.createElement('select');
+                createSelectCity.id = 'City';
+                let citSelect = document.getElementById('result').appendChild(createSelectCity);
+
+                createSelect(citSelect, countriesCity[getSelectCountry.value]);
+
+                citSelect.addEventListener("change", function () {
+                    if (document.getElementById('Weather')){
+                        document.getElementById('Weather').remove()
+                    }
+                    let getSelectCity = document.getElementById('City');
+                    let random = function (min = -10, max = 40) {
+                        min = Math.ceil(min);
+                        max = Math.floor(max);
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    };
+                    let temp = random();
+                    let index = 0;
+                    if (temp > 0 && temp < 30) {
+                        index = 1
+                    } else if (temp > 30 && temp < 40) {
+                        index = 2
+                    }
+                    let randomWeather = weather[index][Math.floor(Math.random()*weather[index].length)];
+
+                    let createWeather = document.createElement('div');
+                    createWeather.id = 'Weather';
+                    let cityWeather = document.getElementById('result').appendChild(createWeather);
+                    let p = document.createElement('p');
+                    p.innerText = `${getSelectCountry.value}. В ${getSelectCity.value} ${randomWeather} ${temp} градусов.`;
+                    cityWeather.appendChild(p);
+                    let img = document.createElement('img');
+                    img.src = images[index][Math.floor(Math.random()*images[index].length)];
+                    cityWeather.appendChild(img);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<select id="countries"></select>
+<div id="result"></div>
+
+</body>
+</html>
