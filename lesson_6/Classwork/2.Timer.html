@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Homework</title>
+</head>
+<body>
+<style>
+    body {
+        background: #e1e1e1;
+        font-family: Verdana, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 32px;
+        font-size: 20px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .container {
+        text-align: center;
+        margin: 5% auto;
+        width: 30%;
+        background: #ffffff;
+        padding: 30px 30px 60px 30px;
+    }
+
+    .time {
+        font-size: 100px;
+    }
+
+    #arrow {
+        border-radius: 10px 10px 0 0;
+        background: red;
+        width: 8px;
+        height: 20px;
+    }
+
+    #black {
+        background: black;
+        width: 8px;
+        height: 180px;
+    }
+
+    #red {
+        background: black;
+        width: 8px;
+        height: 20px;
+    }
+
+    #clock {
+        width: 8px;
+        height: 400px;
+        margin: 0 auto;
+    }
+</style>
+
+<!--
+  Создайте счетчик секунд, который начинает отчет с 1 и заканчивается на 30,
+  также добавьте кнопки который останавливают отчет, и запускают его заново и добавьте кнопку обнуляющую отчет.
+  Также попробуйте изменить код так чтобы отчет начиналься с 30 и заканчивалься на 1.
+
+ + бонус: Сделать так что бы на каждый тик (1с/2c) менялся цвет фона. Можно на основе генератора случайного цвета с предудущих уроков.
+ + бонус: Сделать визуализацию стрелки которая идет по кругу
+      document.getElementById("myDIV").style.transform = "rotate(7deg)";
+
+ + бонус: Сделать кнопки которые выбирают режим в котором идет отсчет - обычный от 0 до 30 или реверсивный от 30 до 0
+-->
+
+
+<div class="container">
+    <div>
+        <button id="start">START</button>
+        <button id="stop">STOP</button>
+        <button id="reset">RESET</button>
+        <input id="checkbox" type="checkbox">REVERS</input>
+    </div>
+    <div id="result" class="time">
+        00
+    </div>
+    <div id="clock">
+        <div>
+            <div id="arrow">
+            </div>
+            <div id="red">
+            </div>
+        </div>
+        <div id="black">
+        </div>
+    </div>
+</div>
+
+<script>
+    let startBtn = document.getElementById('start');
+    let stopBtn = document.getElementById('stop');
+    let resetBtn = document.getElementById('reset');
+    let checkbox = document.getElementById('checkbox');
+    let result = document.getElementById('result');
+
+    let timer = null;
+    let counter = 0;
+    let flag;
+
+
+    function f() {
+        if (checkbox.checked) {
+            counter = 30;
+            result.innerText = '30';
+        } else {
+            counter = 0;
+        }
+    }
+
+    function start() {
+        if (flag === false)
+            reset();
+        flag = false;
+        timer = setInterval(
+            function () {
+                if (checkbox.checked) {
+                    counter--;
+                } else {
+                    counter++;
+                }
+                document.getElementById("clock").style.transform = `rotate(${counter*12}deg)`;
+                document.body.style.background = random();
+                if (counter <= 9)
+                    result.innerText = '0' + String(counter);
+                else
+                    result.innerText = String(counter);
+                if (checkbox.checked){
+                    if (counter === 0) {
+                        reset();
+                        result.innerText = '00';
+                    }
+                } else {
+                    if (counter === 30) {
+                        reset();
+                        result.innerText = '30';
+                    }
+                }
+            },
+            100);
+
+    }
+
+    function stop() {
+        clearInterval(timer);
+        flag = true;
+    }
+
+    function reset() {
+        stop();
+        flag = false;
+        timer = null;
+        if (checkbox.checked) {
+            counter = 30;
+            result.innerText = '30';
+        } else {
+            counter = 0;
+            result.innerText = '00';
+        }
+        document.body.style.background = '#e1e1e1';
+        document.getElementById("clock").style.transform = `rotate(0deg)`;
+    }
+
+    function random() {
+        let hex = '#';
+        while (hex.length < 6) {
+            let color = Math.floor(Math.random() * 256).toString(16);
+            if (color.length < 2) {
+                color = '0' + color
+            }
+            hex += color
+        }
+        return hex
+    }
+
+    startBtn.addEventListener('click', start);
+    stopBtn.addEventListener('click', stop);
+    resetBtn.addEventListener('click', reset);
+    checkbox.addEventListener('click', f);
+
+</script>
+
+</body>
+</html>
