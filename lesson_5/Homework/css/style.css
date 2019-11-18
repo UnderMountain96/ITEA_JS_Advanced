@@ -1,0 +1,79 @@
+body {
+    background: #e1e1e1;
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+input{
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+
+}
+
+button {
+    background-color: #4CAF50;
+    float: right;
+    border: none;
+    color: white;
+    padding: 8px 32px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+textarea {
+    width: -webkit-fill-available;
+    height: 50px;
+    padding: 12px 20px;
+    border: 3px solid #4CAF50;
+    resize: none;
+}
+
+hr {
+    border: 1px solid lightgrey;
+    margin-top: 50px;
+}
+
+.container {
+    margin: 5% auto;
+    width: 50%;
+    background: #ffffff;
+    padding: 30px 30px 60px 30px;
+}
+
+.CommentsAdd {
+    display: flow-root;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+}
+
+.inline {
+    display: inline-flex;
+}
+
+.block {
+    padding: 10px;
+    border: 1px solid lightgrey;
+}
+
+.like {
+    width: 40px;
+    height: 40px;
+    float: right;
+    cursor: pointer;
+}
+
+.like._active {
+    border: 2px solid red;
+    border-radius: 50%;
+}
+
+.comment {
+    padding: 10px;
+}
+
