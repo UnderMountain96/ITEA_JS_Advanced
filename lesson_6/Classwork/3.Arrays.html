@@ -175,7 +175,7 @@
         - Результат в виде списка фильмов
     */
 
-    let stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom', 'Ewan McGregor', ' Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman'];
+    let stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom', 'Ewan McGregor', 'Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman'];
     let movies = [
         {
             name: "Lord of the Rigs",
@@ -245,10 +245,15 @@
                 }
             });
 
-        [...starArr, ...durationArr].forEach(function (item) {
-            if ((starArr.valueOf(item) !== -1) && (durationArr.valueOf(item) !== -1) && (filterArr.valueOf(item) === -1)) {
-            } else {
-                filterArr.push(item)
+        movies.forEach(function (item) {
+            if ((starArr.length > 0) && (durationArr.length > 0)) {
+                if ((durationArr.indexOf(item) !== -1) && (starArr.indexOf(item) !== -1)) {
+                    filterArr.push(item)
+                }
+            } else if (starArr.length > 0) {
+                filterArr = [...starArr]
+            } else if (durationArr.length > 0) {
+                filterArr = [...durationArr]
             }
 
         });
