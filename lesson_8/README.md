@@ -6,8 +6,8 @@
 
 ##### Tasks:
 ```
-- json     +
-- fetch     
+- json      +
+- fetch     +  
 - async     
 ```
 
