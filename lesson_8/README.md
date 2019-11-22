@@ -8,7 +8,7 @@
 ```
 - json      +
 - fetch     +  
-- async     
+- async     +
 ```
 
 
