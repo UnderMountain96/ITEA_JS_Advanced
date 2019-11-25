@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Constructors</title>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <form id="form">
+            <label for="author">
+                <span>Author</span>
+                <select onchange="addMessage()" id="author" name="author">
+                    <option value="">author</option>
+                </select>
+            </label>
+
+            <label for="message">
+                <span>Message</span>
+                <textarea placeholder="Your Message" id="message" required></textarea>
+            </label>
+
+            <button id="SendMessage" type="submit" data-id="0">Send Message</button>
+        </form>
+    </header>
+
+    <section>
+
+    </section>
+
+</div>
+
+
+<script>
+    /*
+      Задание на классы.
+
+      Создать класс Message конструктор котрого состоит из следующих полей:
+      id, author, text, date, answers
+
+      У этого класса будет два метода:
+      SkipMessage() -> которое должно найти сообщение и удалить его из массива.
+      AnswerMessage()-> должно отрыть поле ввода, в который вы сможете ввести ответ
+      SendAnswer() -> метод который «отравляет» ответ, при этом обновляя поле ответа(answers) в вашем объекте с сообщением.
+
+      В метод SendAnswer нужно передать обьект класса Answer который наследуется от класса Message,
+      Но еще дополнительно будет иметь поле parentId.
+
+
+      message = {
+        id: '',
+        author: '',
+        text: '',
+        date: '',
+        answers: [
+          {
+            id: '',
+            author: '',
+            text: '',
+            date: '',
+            parentId: '',
+            answers: ''
+          }
+        ]
+      }
+
+      +Bonus: После создании сообщение добавляется в массив со всеми сообщениями, которые потом будут выводится на экран.
+
+      _ _ _
+
+      Задание можно разбелить на две части:
+        1. Создание самого сообщения:
+        id->выдаётся автоматом
+        Author-> селект с выбором автора
+        Text -> текст сообщения
+        date -> автоматически в момент создания
+
+        Все данные беруться с формы. Массив с сообщениями передается в функцию рендера, которая генерирует сам список.
+
+        2. Ответ на сообщение
+
+    */
+
+    let SendMessage = document.getElementById('SendMessage');
+
+    let messages = [];
+
+    class Message {
+        constructor(id, author, text) {
+            this.id = id;
+            this.author = author;
+            this.text = text;
+            this.date = new Date();
+            this.answers = [];
+
+            this.SkipMessage = (id) => {
+                messages.forEach(function (mess) {
+                    if (mess.id === Number(id)) {
+                        delete messages[messages.indexOf(mess)];
+                        addMessage();
+                    }
+                });
+            };
+
+            this.AnswerMessage = (id) => {
+                SendMessage.dataset.id = id
+            };
+
+            this.SendAnswer = (id) => {
+                if (document.getElementById('message').value !== ''){
+                    let ans = new Answer(messages[id-1].answers.length + 1, 'Bohdan', document.getElementById('message').value, id);
+                    messages[id-1].answers.push(ans);
+                    document.getElementById('message').value = '';
+                    document.getElementById('message').dataset.id = '0';
+                    console.log(messages[id-1])
+                }
+
+            }
+        }
+
+    }
+
+    class Answer extends Message {
+        constructor(id, author, text, parentId, date, answers) {
+            super(id, author, text, date, answers);
+            this.parentId = parentId;
+        }
+    }
+
+    function addMess(id, author, text) {
+        let newMess = new Message(id, author, text);
+        messages.push(newMess);
+    }
+
+    addMess(messages.length + 1, 'Franco', 'test1');
+    addMess(messages.length + 1, 'Shevchenko', 'test2');
+    addMess(messages.length + 1, 'Stys', 'test3');
+    addMess(messages.length + 1, 'Shevchenko', 'test4');
+    addMess(messages.length + 1, 'Franco', 'test5');
+
+    function addAuthor() {
+        let selector = document.getElementById('author');
+        let arr = [];
+        messages.forEach(function (item) {
+            if (arr.indexOf(item.author) === -1) {
+                arr.push(item.author)
+            }
+        });
+        arr.forEach(function (author) {
+            selector.appendChild(new Option(author, author, true, true));
+        });
+        selector.selectedIndex = 0;
+        selector.options[0].disabled = true;
+    }
+
+    function addMessage() {
+        let selectAuthor = document.getElementById('author').value;
+        let section = document.querySelector('section');
+        section.innerHTML = '';
+        messages.forEach(function (mess) {
+            if (mess.author === selectAuthor) {
+                // language=HTML
+                let context = `
+                    <ul id="message_list">
+                        <li>
+                            <div class="message__date">
+                                ${mess.date}
+                            </div>
+                            <div class="message__author">
+                                <b>${mess.author}</b>
+                            </div>
+                            <div class="message__text">
+                                ${mess.text}
+                            </div>
+                            <div class="message__controls">
+                                <button class="_skipMessage" data-id="${mess.id}">Skip</button>
+                                <button class="_answerMessage" data-id="${mess.id}">Answer</button>
+                            </div>
+                        </li>
+                    </ul>`;
+                section.innerHTML += context;
+
+                document.querySelectorAll('._skipMessage').forEach(function (i) {
+                    i.addEventListener('click', function (event){
+                        mess.SkipMessage(event.target.dataset.id)
+                    });
+                });
+                document.querySelectorAll('._answerMessage').forEach(function (i) {
+                    i.addEventListener('click', function (event){
+                        mess.AnswerMessage(event.target.dataset.id)
+                    });
+                });
+                document.getElementById('form').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    if (SendMessage.dataset.id !== '0') {
+                        mess.SendAnswer(SendMessage.dataset.id);
+                    }
+                });
+            }
+        })
+    }
+
+    addAuthor();
+    console.log(messages);
+
+</script>
+</body>
+</html>
