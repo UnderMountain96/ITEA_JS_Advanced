@@ -10,6 +10,6 @@
 |4|done|done|
 |5|done|done|
 |6|done|done|
-|7|||
+|7|done|-|
 |8|done|done|
-|9|||
+|9|-|-|
