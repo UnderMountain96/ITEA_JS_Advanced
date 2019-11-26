@@ -75,7 +75,17 @@ class SuperDude {
     }
 }
 
+class Spell {
+    constructor(name, spell) {
+        this.name = name;
+        this.spell = function () {
+            return `${this.name} ${spell}`
+        };
+        superPowers.push(this)
+    }
+}
 
+let newSpell = new Spell('stoppedYou', 'You Shall Not Pass!!!');
 
 let Luther = new SuperDude('Luther', superPowers);
 console.log(Luther);
@@ -86,4 +96,6 @@ Luther.superSpeed();
 Luther.superFroze();
 Luther.Invisibility();
 Luther.superSkin();
+
+Luther.stoppedYou();
 
