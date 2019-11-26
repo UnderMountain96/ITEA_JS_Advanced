@@ -63,15 +63,13 @@ class SuperDude {
         this.name = name;
         this.superPowers = superPowers;
 
-        this.superPowers.forEach(function (spell) {
+        this.superPowers.forEach( (spell) => {
             Object.defineProperty(
                 this,
                 spell.name,
                 {
                     value: () => console.log(spell.spell()),
                     writable: false,
-                    configurable: false,
-                    enumerable: true
                 })
         });
     }
