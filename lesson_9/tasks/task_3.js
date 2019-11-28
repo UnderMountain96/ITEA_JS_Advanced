@@ -26,8 +26,8 @@ let postContainer = document.getElementById('postContainer');
 let posts = [];
 
 class Post {
-    constructor(id, isActive, title, about, likes, created_at) {
-        this.id = id;
+    constructor(_id, isActive, title, about, likes, created_at) {
+        this._id = _id;
         this.isActive = isActive;
         this.title = title;
         this.about = about;
@@ -36,13 +36,12 @@ class Post {
 
         this.addLike = () => {
             ++this.likes;
-            console.log('like')
         };
 
         this.render = () => {
             // language=HTML
             let context = `
-                <div data-id="${this.id}" id="post">
+                <div data-id="${this._id}" id="post">
                     <i>Date: ${this.created_at}</i>
                     <h3>Title: ${this.title}</h3>
                     <p>${this.about}</p>
@@ -62,9 +61,9 @@ class Post {
 function Like(event) {
     if (event.target.className !== 'like active') {
         posts.forEach(function (post) {
-            if (post.id === Number(event.target.parentElement.dataset.id)) {
+            if (post._id === event.target.parentElement.dataset.id) {
                 event.target.classList.add('active');
-                event.target.nextElementSibling.children[0].innerText++
+                event.target.nextElementSibling.children[0].innerText++;
                 post.addLike();
                 localStorage.setItem(`posts`, JSON.stringify(posts));
             }
@@ -74,10 +73,11 @@ function Like(event) {
 }
 
 function newPost(title, about) {
+    const _id = `5cb2dd8${(+new Date).toString(16)}${(~~(Math.random()*1e8)).toString(16)}`;
     let date = new Date();
-    let created_at = `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}, 
-    ${date.getHours()}:${date.getMinutes()}`;
-    let post = new Post(posts.length + 1, true, title, about, 0, created_at);
+    let created_at = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}, 
+    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    let post = new Post(_id, true, title, about, 0, created_at);
     posts.push(post);
     localStorage.setItem(`posts`, JSON.stringify(posts));
 }
@@ -89,10 +89,31 @@ postForm.addEventListener('submit', function (event) {
     postForm.reset()
 });
 
+const f = fetch('http://www.json-generator.com/api/json/get/cgCRXqNTtu?indent=2')
+    .then(
+        (res) => {
+            return res.json()
+        })
+    .then(
+        (res) => {
+            return res;
+        });
+
+async function fetchPost() {
+    let json = await f;
+    console.log(json);
+    json.forEach(function (post) {
+        let postSL = new Post(post._id, post.isActive, post.title, post.about, 0, post.created_at);
+        posts.push(postSL);
+    })
+}
+
 let postsLS = localStorage.getItem('posts');
 if (postsLS !== null) {
     JSON.parse(postsLS).forEach(function (post) {
-        let postSL = new Post(post.id, post.isActive, post.title, post.about, post.likes, post.created_at);
+        let postSL = new Post(post._id, post.isActive, post.title, post.about, post.likes, post.created_at);
         posts.push(postSL);
     })
+} else {
+    fetchPost();
 }
