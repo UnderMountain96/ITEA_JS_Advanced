@@ -59,6 +59,7 @@
             // language=HTML
             let context = `
                 <li class="listItem">
+                    <input onclick="doneLi(event)" type="checkbox">
                     <span class="TodoText">${text.value}</span>
                     <button onclick="removeLi(event)">Remove</button>
                 </li>
@@ -70,6 +71,9 @@
 
     function removeLi(event) {
         event.target.parentElement.remove()
+    }
+    function doneLi(event) {
+        console.dir(event.target.nextElementSibling.classList.toggle('done'))
     }
 </script>
 
