@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 2</title>
+</head>
+<body>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header {
+        overflow: hidden;
+        background-color: #9c9c9c;
+        padding: 20px 10px;
+        text-align: center;
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-size: 20px;
+    }
+
+    #openBtn {
+        color: white;
+        background-color: #36a8ff;
+    }
+
+    #openBtn:hover {
+        background-color: #2e8fd3;
+    }
+
+    #close {
+        border: 1px solid black;
+        padding: 5px 8px;
+        background-color: silver;
+        cursor: pointer;
+        position: absolute;
+        transform: translateX(529px) translateY(-35px);
+    }
+
+    #close:hover {
+        background-color: red;
+        color: white;
+    }
+
+    #back {
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    #container {
+        margin: 5% auto;
+        width: fit-content;
+        background-color: #e5e5e5;
+        padding: 40px;
+    }
+
+    #context {
+        width: 500px;
+        height: 500px;
+        background: white;
+        border: 1px solid #c3c3c3;
+        overflow: auto;
+        padding: 10px;
+    }
+
+    #bot {
+        margin-top: 20px;
+        display: flex;
+    }
+
+    #create {
+        width: -webkit-fill-available;
+        color: white;
+        background: #4CAF50;
+    }
+
+    #create:hover {
+        background: #469048;
+    }
+
+    #delete {
+        width: -webkit-fill-available;
+        color: white;
+        background: red;
+    }
+
+    #delete:hover {
+        background: #ca0000;
+    }
+
+    .space {
+        width: 20px;
+    }
+
+</style>
+<div class="header">
+    <button id="openBtn">Open Chat</button>
+</div>
+
+<div id="back">
+    <div id="container">
+        <span id="close">X</span>
+        <div id="context">
+
+        </div>
+        <div id="bot">
+            <button id="create">Create</button>
+            <div class="space"></div>
+            <button id="delete">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let authors = [
+        'Andy Moretz',
+        'Ondra Sneck',
+        'Jordan Bryan Aguilar',
+        'Ruslan Simonenko',
+        'Danilo Gadêlha',
+        'Lipkanov Nikita',
+        'Nina Maya Cording',
+        'Chester Abrahams',
+        'Pavel Ryabov',
+        'Fabio Yuiti Goto'
+    ];
+    let texts = [
+        'New build is fantastic! It\'s my own fault for not yet upgrading old laptop\'s RAM to more than 4 gig...but new release feels super light, leaving plenty of room for bulky media windows etc in a fresh way. Cheers\n',
+        'Excellent IDE which extremely increasing my productivity\n',
+        'Their IDEs are the best in the market. Currently I use them to develop my professional projects and I can assure that they generate a great satisfaction for their quality.',
+        'Great IDEs, very responsive support.',
+        'Rider is one of the best IDE\'s that I\'ve used in my whole life, it\'s so much helpful and smart that I can\'t live without it anymore.',
+        'Amazing to get these IDEs for free as a student! It helps a lot get started with great tools!',
+        'So much intelligence in a code editor! If you ever think "it would be cool if you could just..." and it can just do that. Almost every time.\n',
+        'Great Product with shitty price model (i.e. adobe like).',
+        'Unfortunately should be careful with upgrades from one pack to another one. A few days ago prices were calculated incorrectly.',
+        'The tools are great and very reasonably priced, and you get all the quality and extensibility you need, even on their free IDEs the quality\'s great.'
+    ];
+    let posts = [];
+
+    class Post {
+        constructor(id, author, text) {
+            this.id = id;
+            this.author = author;
+            this.text = text;
+        }
+    }
+
+    document.getElementById('openBtn').addEventListener('click', () => {
+        document.getElementById('back').style.display = 'block';
+    });
+
+    document.getElementById('create').addEventListener('click', () => {
+        let newPost = new Post((+new Date).toString(16), authors[Math.floor(Math.random() * 10)], texts[Math.floor(Math.random() * 10)]);
+        posts.push(newPost);
+        // language=HTML
+        let context =
+            `
+                <div class="post" data-id="${newPost.id}">
+                    <h3>${newPost.author}</h3>
+                    <p>${newPost.text}</p>
+                    <hr>
+                </div>
+            `;
+        document.getElementById('context').innerHTML += context;
+        document.getElementById('context').scroll(10000, 10000)
+    });
+
+    document.getElementById('delete').addEventListener('click', () => {
+        let div = document.getElementById('context').children;
+        if (div.length > 0) {
+            let ranDiv = div[Math.floor(Math.random() * div.length)];
+            posts.forEach((post) => {
+                if (post.id === ranDiv.dataset.id) {
+                    posts.splice(posts.indexOf(post), posts.indexOf(post));
+                }
+            });
+            ranDiv.remove()
+        }
+    });
+
+
+    function close() {
+        document.getElementById('back').style.display = 'none';
+    }
+
+    document.getElementById('back').addEventListener('click', (event) => {
+        if (event.target.id === 'back') {
+            close()
+        }
+    });
+
+    document.getElementById('close').addEventListener('click', () => {
+        close()
+    });
+
+</script>
+
+</body>
+</html>
