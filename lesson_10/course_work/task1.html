@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 1</title>
+</head>
+<body>
+<style>
+    body {
+        background: #dbdbdb;
+        opacity: 1;
+    }
+
+    body.hidden {
+        overflow: hidden;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    .imgGal {
+        width: 400px;
+        height: 300px;
+        padding: 23px;
+    }
+
+    .block {
+        display: flex;
+        overflow: hidden;
+    }
+
+    .gallery {
+        border: 1px solid black;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    button {
+        background-color: #a3a3a3;
+        font-size: 20px;
+        color: black;
+        margin: 0 10px;
+        border: none;
+        padding: 0 10px;
+        cursor: pointer;
+        display: block;
+    }
+
+    #LOTR, #WITCHER, #KCD {
+        display: flex;
+        background-color: white;
+    }
+
+    ._img {
+        overflow: hidden;
+        transition: margin 750ms ease 0s;
+        margin-left: 0;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    #fullScreen {
+        background-color: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    #fullImg {
+        margin: 3% auto;
+        width: fit-content;
+        background-color: white;
+        padding: 40px;
+        display: -webkit-box;
+        height: 700px;
+    }
+
+    #Img {
+        width: 1000px;
+        height: 700px;
+    }
+
+    #close {
+        border: 1px solid black;
+        padding: 5px 8px;
+        background-color: silver;
+        cursor: pointer;
+        position: absolute;
+        transform: translateX(1110px) translateY(-35px);
+    }
+
+    #close:hover {
+        background-color: red;
+        color: white;
+    }
+
+</style>
+
+<div id="fullScreen">
+    <div id="fullImg">
+        <span id="close">X</span>
+        <button><</button>
+        <img id="Img" src="" data-id=>
+        <button>></button>
+    </div>
+</div>
+
+<div id="_gal">
+    <h1>The Lord of the Rings</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="LOTR" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+
+    <h1>Witcher</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="WITCHER" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+
+    <h1>Kingdom Come: Deliverance</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="KCD" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+</div>
+
+<script>
+    let LOTR = ['img/LOTR/10.jpg', 'img/LOTR/11.jpg', 'img/LOTR/12.jpg', 'img/LOTR/13.jpg', 'img/LOTR/14.jpg', 'img/LOTR/15.jpg', 'img/LOTR/16.jpg', 'img/LOTR/17.jpg', 'img/LOTR/18.jpg', 'img/LOTR/19.jpg'];
+    let WITCHER = ['img/WITCHER/20.jpg', 'img/WITCHER/21.jpg', 'img/WITCHER/22.jpg', 'img/WITCHER/23.jpg', 'img/WITCHER/24.jpg', 'img/WITCHER/25.jpg', 'img/WITCHER/26.jpg', 'img/WITCHER/27.jpg', 'img/WITCHER/28.jpg', 'img/WITCHER/29.jpg'];
+    let KCD = ['img/KCD/30.jpg', 'img/KCD/31.jpg', 'img/KCD/32.jpg', 'img/KCD/33.jpg', 'img/KCD/34.jpg', 'img/KCD/35.jpg', 'img/KCD/36.jpg', 'img/KCD/37.jpg', 'img/KCD/38.jpg', 'img/KCD/39.jpg'];
+
+    function addGal(arr, name) {
+        let galName = document.getElementById(name);
+        let n = 0;
+        arr.forEach(function (img) {
+            // language=HTML
+            let context = `
+                <div>
+                    <img class="imgGal" src="${img}" alt="" data-id="${n}">
+                </div>
+            `;
+            galName.innerHTML += context;
+            n++
+        })
+    }
+
+    addGal(LOTR, 'LOTR');
+    addGal(WITCHER, 'WITCHER');
+    addGal(KCD, 'KCD');
+
+    document.getElementById('_gal').querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            let div = event.target.parentElement.children[1].children[0];
+            let next = -25;
+            if (event.target.innerText === '<') {
+                if (div.dataset.click !== '0') {
+                    div.dataset.click--;
+                    div.style.marginLeft = `${next * div.dataset.click}%`;
+                } else {
+                    div.style.marginLeft = `10%`;
+                    setTimeout(() => div.style.marginLeft = `0%`, 200)
+                }
+
+            } else if (event.target.innerText === '>') {
+                if (div.dataset.click !== '6') {
+                    div.dataset.click++;
+                    div.style.marginLeft = `${next * div.dataset.click}%`;
+                } else {
+                    div.style.marginLeft = `-160%`;
+                    setTimeout(() => div.style.marginLeft = `-150%`, 200)
+                }
+            }
+        })
+    });
+
+    function setImg(id) {
+        let arr = document.querySelectorAll(`#${document.getElementById('Img').dataset.arrName}`)[0].children;
+        document.getElementById('Img').src = arr[id].children[0].src;
+        document.getElementById('Img').dataset.id = id;
+    }
+
+    document.querySelectorAll('.imgGal').forEach((img) => {
+        img.addEventListener('click', (event) => {
+            document.body.classList.add('hidden');
+            document.getElementById('fullScreen').style.display = 'block';
+            document.getElementById('Img').dataset.arrName = event.target.parentElement.parentElement.id;
+            setImg(Number(event.target.dataset.id));
+
+        })
+    });
+
+    document.getElementById('fullImg').querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            let imgId = Number(document.getElementById('Img').dataset.id);
+            if (event.target.innerText === '<') {
+                if (imgId !== 0) {
+                    imgId--;
+                    setImg(imgId);
+                } else {
+                    setImg(9);
+                }
+            } else if (event.target.innerText === '>') {
+                if (imgId !== 9) {
+                    imgId++;
+                    setImg(imgId);
+                } else {
+                    setImg(0);
+                }
+            }
+        });
+    });
+
+    function close() {
+        document.body.classList.remove('hidden');
+        document.getElementById('fullScreen').style.display = 'none';
+    }
+
+    document.getElementById('fullScreen').addEventListener('click', (event) => {
+        if (event.target.id === 'fullScreen') {
+            close()
+        }
+    });
+
+    document.getElementById('close').addEventListener('click', () => {
+        close()
+    });
+
+</script>
+</body>
+</html>
