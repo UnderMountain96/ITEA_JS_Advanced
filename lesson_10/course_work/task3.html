@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 3</title>
+</head>
+<body>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #d0d0d0;
+    }
+
+    .mainBlock {
+        display: flex;
+        height: -webkit-fill-available;
+    }
+
+    .block {
+        background-color: white;
+        margin: 20px;
+        padding: 70px;
+    }
+
+    .view {
+        width: 60%;
+        overflow: auto;
+    }
+
+    .constructor {
+        width: 40%;
+    }
+
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+    }
+
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 50px;
+    }
+
+    label {
+        font-size: 24px;
+        display: block;
+        transform: translateY(8px);
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        background-color: #dedede;
+        border: none;
+        border-radius: 4px;
+    }
+
+    textarea {
+        width: -webkit-fill-available;
+        height: 50px;
+        padding: 12px;
+        resize: none;
+        background-color: #dedede;
+        border: none;
+        border-radius: 4px;
+    }
+
+    #Img {
+        width: 100%;
+    }
+
+    #urlImg {
+        width: 95%;
+    }
+
+    #btnImg {
+        font-weight: bold;
+    }
+
+    input[type=submit] {
+        margin-top: 10px;
+        font-size: 20px;
+        border: none;
+        background-color: #ffe536;
+    }
+
+    .post {
+        margin-top: 20px;
+    }
+
+    #formConstructor {
+        margin-top: 20px;
+    }
+
+    .postHead {
+        display: flex;
+    }
+
+    .postAuthor {
+        font-weight: bold;
+        color: #2e8fd3;
+    }
+
+    .postDate {
+        margin-left: auto;
+        color: silver;
+        font-style: italic;
+    }
+
+    .postImg {
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .postText {
+        font-size: 18px;
+        text-align: justify;
+    }
+
+    .postBtn {
+        margin-top: 20px;
+        display: flex;
+    }
+
+    .postLike {
+
+    }
+
+    .postCountCom {
+        color: silver;
+        font-size: 18px;
+        margin-left: auto;
+        transform: translateY(14px) translateX(-5px);
+    }
+
+    .postWriteCom {
+    }
+
+    .heart {
+        margin-right: 10px;
+        width: 25px;
+        transform: translateY(5px);
+        fill: #0c78cd;
+    }
+
+    .likeBtn {
+        height: 44px;
+        background: rgba(46, 143, 211, 0.21);
+        color: #0c78cd;
+    }
+
+    .likeBtn.active {
+        background: rgba(46, 143, 211, 0.78);
+        color: #0c4478;
+    }
+
+    .heart.active {
+        fill: #0c4478;
+    }
+
+    .writeBtn {
+        height: 44px;
+        background: rgba(255, 176, 25, 0.2);
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-size: 20px;
+        border-radius: 4px;
+    }
+
+    .likeText {
+        transform: translateY(-5px);
+        display: block;
+    }
+
+    .postComment {
+        margin-top: 20px;
+    }
+
+    .hideComment {
+        display: none;
+    }
+
+    .comment {
+        margin-bottom: 20px;
+        margin-left: 40px;
+    }
+
+    .commentLine {
+        background-color: #dedede;
+        transform: translateX(-40px);
+    }
+
+    .commentBlock {
+        background-color: white;
+        transform: translateX(5px);
+        padding-left: 45px;
+        padding-bottom: 10px;
+    }
+
+    .commentHead {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .commentAuthor {
+        font-weight: bold;
+        color: #2e8fd3;
+    }
+
+    .commentDate {
+        margin-left: auto;
+        color: silver;
+        font-style: italic;
+    }
+
+    .commentText {
+        font-size: 18px;
+        text-align: justify;
+    }
+
+</style>
+<div class="mainBlock">
+    <div id="feed" class="block view">
+        <h1>News Feed</h1>
+
+    </div>
+
+    <div class="block constructor">
+        <h1>Post constructor</h1>
+        <form id="formConstructor">
+            <div>
+                <div class="col-25">
+                    <label for="author">Author</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="author" required>
+                </div>
+            </div>
+            <div>
+                <div class="col-25">
+                    <label for="text">Post text</label>
+                </div>
+                <div class="col-75">
+                    <textarea id="text" required></textarea>
+                </div>
+            </div>
+            <div>
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <img id="Img" src="" alt="">
+                </div>
+            </div>
+            <div>
+                <div class="col-25">
+                    <label for="urlImg">Img URL</label>
+                </div>
+                <div class="col-75">
+                    <div class="col-75">
+                        <input type="text" id="urlImg" required>
+                    </div>
+                    <div class="col-25">
+                        <input type="button" id="btnImg" value="Load img">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" id="sendPost" value="Send Post">
+        </form>
+    </div>
+</div>
+
+<script>
+
+    let posts = [];
+
+    class Comment {
+        constructor(id, author, text, date) {
+            this.id = id;
+            this.author = author;
+            this.text = text;
+            this.date = date;
+        }
+    }
+
+    class Post {
+        constructor(id, author, text, urlImg, date, like) {
+            this.id = id;
+            this.author = author;
+            this.text = text;
+            this.urlImg = urlImg;
+            this.date = date;
+            this.like = like;
+            this.comments = [];
+
+            this.addLike = function () {
+                return ++this.like
+            };
+
+            this.addComment = function (id, author, text, date) {
+                let newCom = new Comment(id, author, text, date);
+                this.comments.push(newCom);
+                // language=HTML
+                let context =
+                    `
+                    <div class="comment" data-id="${newCom.id}">
+                        <div class="commentLine">
+                            <div class="commentBlock">
+                                <div class="commentHead">
+                                    <div class="commentAuthor">
+                                        ${newCom.author}
+                                    </div>
+                                    <div class="commentDate">
+                                        ${newCom.date}
+                                    </div>
+                                </div>
+                                <div class="commentText">
+                                    ${newCom.text}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                return context
+            };
+
+            this.showComment = function () {
+                this.comments.forEach((comment) => {
+                    // language=HTML
+                    let context =
+                        `
+                    <div class="comment" data-id="${comment.id}">
+                        <div class="commentLine">
+                            <div class="commentBlock">
+                                <div class="commentHead">
+                                    <div class="commentAuthor">
+                                        ${comment.author}
+                                    </div>
+                                    <div class="commentDate">
+                                        ${comment.date}
+                                    </div>
+                                </div>
+                                <div class="commentText">
+                                    ${comment.text}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                })
+            };
+
+            this.render = function () {
+                // language=HTML
+                let context =
+                    `
+                        <div class="post" data-id="${this.id}">
+                            <div class="postHead">
+                                <div class="postAuthor">
+                                    ${this.author}
+                                </div>
+                                <div class="postDate">
+                                    ${this.date}
+                                </div>
+                            </div>
+                            <img class="postImg" src="${this.urlImg}" alt="">
+                            <div class="postText">
+                                ${this.text}
+                            </div>
+                            <div class="postBtn">
+                                <div class="postLike">
+                                <form data-id="${this.id}">
+                                    <button type="submit" class="likeBtn">
+                                    <span class="likeText"><svg class="heart" viewBox="0 0 32 29.6">
+                                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+                                    </svg>
+                                    Likes: <span class="_like">${this.like}</span></span>
+                                    </button>
+                                </form>
+                                </div>
+                                <div class="postCountCom">
+                                    Comments (<span>${this.comments.length}</span>)
+                                </div>
+                                <div class="postWriteCom">
+                                    <button class="writeBtn">Write Comment</button>
+                                </div>
+                            </div>
+                            <div class="postComment hideComment">
+                                <div class="comments">
+
+                                </div>
+                                <div class="addComment">
+                                    <form class="formComment" data-id="${this.id}">
+                                        <input id="authorComment" placeholder="Author" required>
+                                        <textarea id="textComment" placeholder="Comment" required></textarea>
+                                        <input type="submit" id="sendComment" value="Send Comment">
+                                    </form>
+
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    `;
+                document.getElementById('feed').innerHTML += context
+            }
+        }
+    }
+
+
+    document.getElementById('btnImg').addEventListener('click', () => {
+        document.getElementById('Img').src = document.getElementById('urlImg').value;
+    });
+
+    function funcDate() {
+        let date = new Date();
+        let day = String(date.getDay());
+        let month = String(date.getMonth());
+        let year = String(date.getFullYear());
+        let hours = String(date.getHours());
+        let minutes = String(date.getMinutes());
+        if (day.length === 1) {
+            day = '0' + day
+        }
+        if (month.length === 1) {
+            month = '0' + month
+        }
+        if (hours.length === 1) {
+            hours = '0' + hours
+        }
+        if (minutes.length === 1) {
+            minutes = '0' + minutes
+        }
+        return `${day}/${month}/${year} ${hours}:${minutes}`
+    }
+
+    document.getElementById('formConstructor').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        let author = document.getElementById('author');
+        let text = document.getElementById('text');
+        let urlImg = document.getElementById('urlImg');
+        let date = funcDate();
+        let id = `${(+new Date).toString(16)}`;
+        let like = 0;
+
+        let newPost = new Post(id, author.value, text.value, urlImg.value, date, like);
+        posts.push(newPost);
+        newPost.render();
+        selectBtnComment();
+
+        author.value = '';
+        text.value = '';
+        urlImg.value = '';
+    });
+
+    let author = 'J. R. R. Tolkien';
+    let text = `The Lord of the Rings is an epic high-fantasy novel written by English author and scholar J. R. R. Tolkien. The story began as a sequel to Tolkien's 1937 fantasy novel The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949, The Lord of the Rings is one of the best-selling novels ever written, with over 150 million copies sold.`;
+    let urlImg = 'https://24tv.ua/resources/photos/news/201907/1174931_8701122.jpg?1562751179000';
+
+    let date = funcDate();
+    let id = `${(+new Date).toString(16)}`;
+    let like = 0;
+
+    let newPost = new Post(id, author, text, urlImg, date, like);
+    posts.push(newPost);
+    newPost.render();
+
+
+    function selectBtnComment() {
+        document.querySelectorAll('.formComment').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                let id = `${(+new Date).toString(16)}`;
+                let author = event.target[0];
+                let text = event.target[1];
+                let date = funcDate();
+                let idPost = event.target.dataset.id;
+
+                console.dir(event.target.parentElement.parentElement.parentElement.children[3].children[1].children[0]);
+
+                posts.forEach((post) => {
+                    if (post.id === idPost) {
+                        let newCom = post.addComment(id, author.value, text.value, date);
+                        event.target.parentElement.parentElement.children[0].innerHTML += newCom;
+                        event.target.parentElement.parentElement.parentElement.children[3].children[1].children[0].innerText = post.comments.length
+                    }
+                });
+                author.value = '';
+                text.value = '';
+            });
+        });
+
+        document.querySelectorAll('.writeBtn').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.target.parentElement.parentElement.nextElementSibling.classList.toggle('hideComment')
+                });
+            });
+
+        document.querySelectorAll('.postLike').forEach((btn) => {
+            btn.addEventListener('submit', (event) => {
+                event.preventDefault();
+                let idPost = event.target.dataset.id;
+                posts.forEach((post) => {
+                    if (post.id === idPost) {
+                        event.target[0].querySelector('._like').innerText = post.addLike();
+                    }
+                });
+                event.target[0].disabled = 'True';
+                event.target[0].classList.toggle('active');
+                event.target[0].querySelector('.heart').classList.toggle('active');
+            });
+        });
+    }
+
+    selectBtnComment();
+</script>
+
+</body>
+</html>
